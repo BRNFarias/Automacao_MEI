@@ -1,0 +1,32 @@
+# --- Arquivos do Python ---
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.env
+mei/
+
+# --- Arquivos Específicos do Projeto (NÃO SUBIR) ---
+# Ignora a planilha com dados reais dos clientes
+clientes.xlsx
+clientes_*.xlsx
+
+# Ignora a pasta onde os PDFs são baixados
+das_baixados/
+guias/
+
+# Ignora os arquivos Excel de saída (Lote Bancário)
+Lote_Pagamento_*.xlsx
+*.xlsx
+*.xls
+
+# Ignora PDFs soltos na raiz (se houver)
+*.pdf
+
+# --- Logs e Temporários ---
+*.log
+chrome_user_data/
+userData/
