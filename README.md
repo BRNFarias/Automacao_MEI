@@ -1,90 +1,78 @@
-# Automação de Emissão de Guias MEI (DAS) 🤖💸
+# Automação MEI
 
-Ferramenta de **RPA (Robotic Process Automation)** para escritórios de contabilidade e BPO Financeiro. O objetivo é automatizar o download das guias de pagamento (DAS) do Simples Nacional para diversos clientes MEI em lote.
+Projeto em Python para automatizar tarefas financeiras de um MEI, com foco na extração e organização de extratos bancários do Itaú.
 
-## 🚀 Diferenciais Técnicos
+## Visão geral
 
-O grande desafio foi contornar as defesas anti-robô do portal do Governo.
+Este projeto foi criado para reduzir trabalho manual na gestão financeira do MEI, automatizando a coleta e o tratamento de dados bancários.
 
-- **Solução:** Uso da biblioteca **DrissionPage** no lugar do Selenium.
-- **Motivo:** DrissionPage controla o navegador via **CDP (Chrome DevTools Protocol)**, tornando a automação indetectável.
-- **Benefício:** Digitação nativa e fluida, sem injeção de scripts.
+Atualmente, o foco principal é a extração de extratos do Itaú e a transformação dessas informações em dados estruturados para análise e controle financeiro.
 
-## 📋 Funcionalidades
+## Funcionalidades implementadas
 
-- **Leitura em lote:** Importa vários CNPJs a partir de um arquivo `clientes.xlsx`.
-- **Navegação automática:** Acessa o PGMEI, preenche dados e segue para a emissão da guia.
-- **Modo semi-automático:** Pausa em etapas críticas (Captcha/download) para intervenção humana.
-- **Organização automática:** Renomeia o PDF baixado para o respectivo CNPJ.
+- Extração automatizada de extratos bancários do Itaú
+- Coleta de lançamentos financeiros (data, descrição, valor)
+- Organização dos dados em formato estruturado
+- Preparação dos dados para uso contábil ou financeiro
+- Automação de tarefas repetitivas do dia a dia do MEI
 
-## 🛠️ Tecnologias Utilizadas
+## Extrator Itaú
 
-- Python 3.10+
-- DrissionPage
-- Pandas
-- OpenPyXL
+O arquivo `extrator_itau.py` é responsável por:
 
-## ⚙️ Configuração do Ambiente
+- Acessar o sistema do Itaú
+- Navegar até a área de extratos
+- Extrair os lançamentos financeiros do período disponível
+- Processar os dados extraídos
+- Gerar saída organizada (ex: CSV ou outro formato estruturado)
 
-### 1. Clone o repositório
-```bash
-git clone https://github.com/seu-usuario/automacao-mei.git
-cd automacao-mei
-```
+Esse script é o núcleo da automação financeira do projeto.
 
-### 2. Crie um ambiente virtual (opcional)
-```bash
-python -m venv venv
+## Requisitos
 
-# Windows
-./venv/Scripts/activate
+- Python 3.10 ou superior
+- Dependências listadas no arquivo `requirements.txt`
 
-# Linux/Mac
-source venv/bin/activate
-```
+Instalação das dependências:
 
-### 3. Instale as dependências
 ```bash
 pip install -r requirements.txt
 ```
 
-### 4. Prepare a planilha de clientes
-Crie um arquivo **clientes.xlsx** na raiz com colunas:
+## Como executar
 
-| CNPJ           | NOME (Opcional) |
-|----------------|------------------|
-| 12345678000199 | Cliente A        |
-| 98765432000100 | Cliente B        |
+Execute o script principal com:
 
-> Obs: Esse arquivo está no `.gitignore`.
-
-## ▶️ Como Executar
-
-1. Certifique-se de que o **Google Chrome esteja fechado**.
-2. Execute o script:
 ```bash
-python 1_baixar_guias.py
-```
-3. O navegador abrirá automaticamente.
-4. O robô preencherá o CNPJ.
-5. **Você interage apenas quando solicitado** (Captcha, confirmações, escolha de mês/ano).
-6. Pressione **ENTER** no terminal para continuar para o próximo cliente.
-
-Os arquivos serão salvos em **das_baixados/** já renomeados.
-
-## 📁 Estrutura do Projeto
-```
-automacao-mei/
-├── das_baixados/       # PDFs baixados
-├── 1_baixar_guias.py   # Script principal
-├── clientes.xlsx       # Base de dados (ignorado no Git)
-├── requirements.txt    # Dependências
-├── .gitignore
-└── README.md
+python extrator_itau.py
 ```
 
-## ⚠️ Aviso Legal
-Ferramenta criada para fins educacionais e de produtividade. O uso em portais governamentais deve seguir as normas e termos vigentes. O autor não é responsável por qualquer uso indevido.
+Caso o script utilize parâmetros adicionais (como datas, conta ou credenciais), ajuste conforme a implementação no arquivo.
 
-**Desenvolvido por Seu Nome**
+## Estrutura do projeto
 
+```text
+Automacao_MEI/
+├── extrator_itau.py
+├── requirements.txt
+├── README.md
+└── outros arquivos auxiliares
+```
+
+## Objetivo do projeto
+
+- Facilitar a organização financeira do MEI
+- Evitar erros manuais na leitura de extratos
+- Economizar tempo com automação
+- Servir como base para futuras automações fiscais e contábeis
+
+## Próximos passos
+
+- Melhorar tratamento de erros
+- Adicionar logs mais detalhados
+- Suporte a outros bancos
+- Integração com planilhas ou banco de dados
+
+## Licença
+
+Este projeto está sob a licença MIT.
