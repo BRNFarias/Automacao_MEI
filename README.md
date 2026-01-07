@@ -1,78 +1,98 @@
-# Automação MEI
+# 🤖 Automação de Emissão de Guias MEI (DAS) e Pagamento
 
-Projeto em Python para automatizar tarefas financeiras de um MEI, com foco na extração e organização de extratos bancários do Itaú.
+Ferramenta de **RPA (Robotic Process Automation)** desenvolvida para escritórios de contabilidade e BPO Financeiro. O objetivo é automatizar o download das guias de pagamento (DAS) do Simples Nacional em lote e preparar os dados para pagamento no banco.
 
-## Visão geral
+---
 
-Este projeto foi criado para reduzir trabalho manual na gestão financeira do MEI, automatizando a coleta e o tratamento de dados bancários.
+## 📋 Visão Geral
 
-Atualmente, o foco principal é a extração de extratos do Itaú e a transformação dessas informações em dados estruturados para análise e controle financeiro.
+O sistema resolve dois grandes problemas manuais:
 
-## Funcionalidades implementadas
+1. **Emissão**: Acessa o portal do Simples Nacional, baixa as guias (DAS) e organiza por CNPJ.
+2. **Financeiro**: Lê os códigos de barras dos PDFs baixados e gera uma planilha formatada para **Pagamento em Lote** (Itaú, Inter, etc).
 
-- Extração automatizada de extratos bancários do Itaú
-- Coleta de lançamentos financeiros (data, descrição, valor)
-- Organização dos dados em formato estruturado
-- Preparação dos dados para uso contábil ou financeiro
-- Automação de tarefas repetitivas do dia a dia do MEI
+---
 
-## Extrator Itaú
+## 🚀 Funcionalidades Implementadas
 
-O arquivo `extrator_itau.py` é responsável por:
+- **Emissão em Lote**: Processa múltiplos CNPJs listados no ficheiro `clientes.xlsx`.
+- **Cálculo Automático de Competência**: Identifica o mês de referência (mês anterior) sem necessidade de ajuste manual.
+- **Validação Inteligente**:
+  - Identifica e pula guias que já constam como **"Já existe pagamento"**.
+  - Deteta e ignora empresas com situação **"BAIXADA"** ou **"ENCERRAMENTO"**.
+- **Extração Bancária (Extrator Itaú)**: Lê os PDFs gerados, extrai a linha digitável (código de barras) e o valor, gerando um Excel pronto para importação no banco.
 
-- Acessar o sistema do Itaú
-- Navegar até a área de extratos
-- Extrair os lançamentos financeiros do período disponível
-- Processar os dados extraídos
-- Gerar saída organizada (ex: CSV ou outro formato estruturado)
+---
 
-Esse script é o núcleo da automação financeira do projeto.
+## 🛠️ Tecnologias Utilizadas
 
-## Requisitos
+- **Python 3.10+**
+- **DrissionPage**: Para navegação web indetetável e robusta contra bloqueios.
+- **Pandas & OpenPyXL**: Para manipulação de planilhas Excel.
+- **pdfplumber**: Para leitura precisa dos dados dentro dos PDFs das guias.
 
-- Python 3.10 ou superior
-- Dependências listadas no arquivo `requirements.txt`
+---
 
-Instalação das dependências:
+## 📁 Estrutura do Projeto
+
+```text
+Automacao_MEI/
+├── 1_baixar_guias.py          # Robô que acessa o site e baixa os PDFs
+├── extrator_itau.py           # Robô que lê os PDFs e gera o Excel para pagamento
+├── clientes.xlsx              # Ficheiro de entrada com a lista de CNPJs
+├── das_baixados/              # Pasta onde os PDFs são salvos (gerada automaticamente)
+├── lista_pagamentos_itau.xlsx # Relatório final gerado para o banco
+├── requirements.txt           # Lista de dependências
+└── README.md                  # Documentação
+```
+
+---
+
+## ⚙️ Configuração e Instalação
+
+1. **Instale as dependências**:
 
 ```bash
 pip install -r requirements.txt
 ```
 
-## Como executar
+2. **Prepare a planilha de clientes**:
 
-Execute o script principal com:
+Crie ou edite o arquivo `clientes.xlsx` na raiz do projeto com, pelo menos, uma coluna chamada **CNPJ**.
+
+---
+
+## ▶️ Como Executar
+
+### Passo 1: Baixar as Guias
+
+Execute o script de download. O navegador abrirá, fará o login e baixará as guias automaticamente.
+
+```bash
+python 1_baixar_guias.py
+```
+
+> **Obs:** O robô pode solicitar interação manual em casos de CAPTCHA.
+
+### Passo 2: Gerar Arquivo de Pagamento
+
+Após o download das guias, execute o extrator para criar a lista de pagamento:
 
 ```bash
 python extrator_itau.py
 ```
 
-Caso o script utilize parâmetros adicionais (como datas, conta ou credenciais), ajuste conforme a implementação no arquivo.
+Isso irá gerar o ficheiro `lista_pagamentos_itau.xlsx` com os códigos de barras e valores extraídos dos PDFs.
 
-## Estrutura do projeto
+---
 
-```text
-Automacao_MEI/
-├── extrator_itau.py
-├── requirements.txt
-├── README.md
-└── outros arquivos auxiliares
-```
+## ⚠️ Aviso Legal
 
-## Objetivo do projeto
+Ferramenta criada para fins de produtividade e gestão interna. O uso em portais governamentais deve seguir rigorosamente os termos de uso vigentes.
 
-- Facilitar a organização financeira do MEI
-- Evitar erros manuais na leitura de extratos
-- Economizar tempo com automação
-- Servir como base para futuras automações fiscais e contábeis
+---
 
-## Próximos passos
+## 📄 Licença
 
-- Melhorar tratamento de erros
-- Adicionar logs mais detalhados
-- Suporte a outros bancos
-- Integração com planilhas ou banco de dados
+Este projeto está licenciado sob a **MIT License**.
 
-## Licença
-
-Este projeto está sob a licença MIT.
